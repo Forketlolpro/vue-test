@@ -1,24 +1,17 @@
 <template>
     <div id="app">
-        <img alt="Vue logo" src="./assets/logo.png">
-        <HelloWorld v-bind:msg="textt"/>
+        <h1></h1>
+        <Table></Table>
     </div>
 </template>
 
 <script>
-    /* eslint-disable */
-    import HelloWorld from './components/HelloWorld.vue'
+    import Table from './components/Table.vue'
 
     export default {
         name: 'app',
         components: {
-            HelloWorld
-        },
-        computed: {
-            // геттер вычисляемого значения
-            textt: function () {
-                return JSON.stringify(this.$store.getters.USERS)
-            }
+            Table
         },
         created: function () {
             fetch('./users.json', {
