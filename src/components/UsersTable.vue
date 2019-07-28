@@ -2,17 +2,18 @@
     <table>
         <thead>
         <tr>
+            <th></th>
             <th v-for="(key, index) in columns" :key="index"
                 @click="sortBy(key)"
-                :class="{ active: sortKey == key }">
+                :class="{ active: sortKey === key }">
                 {{ key | capitalize }}
-                <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
-                </span>
+                <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'"></span>
             </th>
         </tr>
         </thead>
         <tbody>
         <tr v-for="(entry, index) in filteredList" :key="index">
+            <td>{{index}}</td>
             <td v-for="(key, index) in columns" :key="index">
                 {{entry[key]}}
             </td>
@@ -22,9 +23,8 @@
 </template>
 
 <script>
-    /* eslint-disable */
     export default {
-        name: "table",
+        name: "usersTable",
         computed: {
             usersList: function () {
                 return this.$store.getters.USERS
@@ -38,27 +38,29 @@
             sortOrders: function () {
                 return this.$store.getters.SORTORDERS
             },
+            sortKey: function () {
+                return this.$store.getters.SORTKEY
+            },
             filteredList: function () {
                 let sortKey = this.sortKey;
                 let filterKey = this.filterKey && this.filterKey.toLowerCase();
-                console.log(this.sortOrders);
                 let order = this.sortOrders[sortKey] || 1;
-                let heroes = this.usersList;
+                let list = this.usersList;
                 if (filterKey) {
-                    heroes = heroes.filter(function (row) {
+                    list = list.filter(function (row) {
                         return Object.keys(row).some(function (key) {
                             return String(row[key]).toLowerCase().indexOf(filterKey) > -1
                         })
                     })
                 }
                 if (sortKey) {
-                    heroes = heroes.slice().sort(function (a, b) {
+                    list = list.slice().sort(function (a, b) {
                         a = a[sortKey];
                         b = b[sortKey];
                         return (a === b ? 0 : a > b ? 1 : -1) * order
                     })
                 }
-                return heroes
+                return list
             }
         },
         filters: {
@@ -85,15 +87,9 @@
 </script>
 
 <style scoped>
-    table {
-        border: 2px solid #42b983;
-        border-radius: 3px;
-        background-color: #fff;
-    }
-
     th {
-        background-color: #42b983;
-        color: rgba(255,255,255,0.66);
+        background-color: #000;
+        color: rgba(255, 255, 255, 0.66);
         cursor: pointer;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -102,11 +98,9 @@
     }
 
     td {
-        background-color: #f9f9f9;
     }
 
     th, td {
-        min-width: 120px;
         padding: 10px 20px;
     }
 

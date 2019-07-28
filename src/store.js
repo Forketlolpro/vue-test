@@ -6,14 +6,18 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         users: null,
-        tableHeaders: ['id', 'name', 'secondName', 'age', 'rating'],
+        tableHeaders: ['name', 'secondName', 'age', 'rating'],
         searchQuery: '',
         sortKey: '',
-        sortOrders: null
+        sortOrders: null,
+        dataReady: false
     },
     getters: {
         USERS: state => {
             return state.users;
+        },
+        DATAREADY: state => {
+            return state.dataReady;
         },
         TABLEHEADERS: state => {
             return state.tableHeaders;
@@ -33,6 +37,9 @@ export default new Vuex.Store({
         SET_USERS: (state, payload) => {
             state.users = payload;
         },
+        SET_DATAREADY: (state, payload) => {
+            state.dataReady = payload;
+        },
         SET_TABLEHEADERS: (state, payload) => {
             state.tableHeaders = payload;
         },
@@ -43,7 +50,7 @@ export default new Vuex.Store({
             state.sortKey = payload;
         },
         SET_SORTORDERS: (state, payload) => {
-            if (typeof payload == 'string') {
+            if (typeof payload === 'string') {
                 state.sortOrders[payload]*=-1;
             } else {
                 state.sortOrders = payload;
@@ -53,6 +60,9 @@ export default new Vuex.Store({
     actions: {
         SET_USERS: (context, payload) => {
             context.commit('SET_USERS', payload)
+        },
+        SET_DATAREADY: (context, payload) => {
+            context.commit('SET_DATAREADY', payload)
         },
         SET_TABLEHEADERS: (context, payload) => {
             context.commit('SET_TABLEHEADERS', payload)
